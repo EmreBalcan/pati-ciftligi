@@ -1,0 +1,44 @@
+/* Landscape playfield and layered forest scenery. */
+.app{width:min(100%,1180px);padding:8px 12px 12px}
+.game{height:min(69vh,650px);min-height:0;aspect-ratio:16/9;background-size:450px;border:0;border-radius:18px}
+.game.forest{background-color:#63a13b}
+.game:before{content:"";position:absolute;z-index:2;inset:0;pointer-events:none;background:radial-gradient(ellipse 20% 46% at 62% 10%,#fff8cb73,transparent 74%),linear-gradient(116deg,transparent 30%,#fff9bc25 39%,transparent 49%),linear-gradient(112deg,transparent 58%,#fff8c033 64%,transparent 72%);mix-blend-mode:screen}
+.game:after{z-index:2;background:radial-gradient(ellipse at 68% 19%,#fff1b441,transparent 46%),radial-gradient(ellipse at center,transparent 42%,#0a2b1940 100%);pointer-events:none}
+.scenery{position:absolute;z-index:1;pointer-events:none;transform:translate(-50%,-50%);width:clamp(110px,30vh,250px);height:auto;filter:drop-shadow(-15px 19px 8px #1024148c)}
+.scenery img{display:block;width:100%;height:auto}
+.scenery.tree{width:clamp(140px,43vh,320px)}
+.scenery.pine{width:clamp(110px,30vh,235px)}
+.scenery.rock,.scenery.bush,.scenery.grass,.scenery.log{width:clamp(42px,13vh,115px)}
+.scenery.grass{width:clamp(36px,9vh,80px);filter:drop-shadow(-5px 7px 4px #14331270)}
+.scenery.rock{filter:drop-shadow(-8px 10px 5px #102414a0)}
+.game:not(.forest) .scenery{display:none}
+.game .decor{display:none}
+.limit{z-index:2;left:24.8%;right:24.8%;top:72%;bottom:auto;border-top:2px dashed #fffdf3ba}
+.fence{z-index:4}
+.fence.left,.fence.right{display:none}
+.fence.top{left:23.4%;right:23.4%;top:15%;height:59%;background-image:url('/assets/fence-overhead-v2.png');background-size:100% 100%;filter:drop-shadow(-12px 14px 7px #0d281ab3)}
+canvas{z-index:3}
+.tip{margin:5px 0 0}
+.map{font-size:14px}
+.label,.sub{font-size:12px}
+@media (orientation:landscape) and (max-height:650px){
+  html,body{height:100%;overflow:hidden}
+  .app{width:100vw;height:100dvh;padding:0;position:relative}
+  .game{width:100vw;height:100dvh;aspect-ratio:auto;border-radius:0}
+  .top,.maps,.hud{position:absolute;z-index:7}
+  .top{top:8px;left:8px}
+  .brand{display:none}
+  .maps{top:8px;left:56px;width:min(34vw,260px);margin:0}
+  .map{padding:6px 2px;background:#123722dd;font-size:12px}
+  .hud{top:8px;right:8px;width:min(37vw,290px);margin:0}
+  .score{min-width:65px;padding:5px 8px}
+  .score strong{font-size:17px}
+  .next{padding:3px 7px}
+  .q{width:27px;height:27px}
+  .tip{display:none}
+  .game .scenery.tree{width:clamp(135px,43vh,260px)}
+}
+@media (orientation:portrait) and (max-width:700px){
+  body:after{content:"Oyunu oynamak için telefonu yatay çevir ↻";position:fixed;z-index:30;inset:0;display:grid;place-items:center;text-align:center;padding:32px;background:#11301f;color:#fff;font-size:23px;line-height:1.4}
+  .app{width:100%;visibility:hidden}
+}
