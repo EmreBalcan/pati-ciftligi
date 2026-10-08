@@ -4,7 +4,7 @@
 const C=document.querySelector('#canvas'),X=C.getContext('2d'),game=document.querySelector('#game'),scoreEl=document.querySelector('#score'),queueEl=document.querySelector('#queue'),toast=document.querySelector('#toast');
 const maps={forest:{bg:'/assets/forest-ground-v2.png',names:['Fare','Sincap','Tavşan','Kirpi','Rakun','Tilki','Geyik','Ayı','Geyik Kral']},desert:{bg:'/assets/desert-ground.png',names:['Çöl Faresi','Fenek','Mirket','Kaplumbağa','Armadillo','Deve','Antilop','Aslan','Fil']},polar:{bg:'/assets/polar-ground.png',names:['Lemming','Pufla','Kutup Tavşanı','Fok','Kutup Tilkisi','Penguen','Mors','Kutup Ayısı','Narval']}};
 const scenery=[
-  ['tree','/assets/forest-tree-v2.png',2,-17,1.10],['tree','/assets/forest-tree-v2.png',17,-21,.82],['tree','/assets/forest-tree-v2.png',48,-27,.75],['tree','/assets/forest-tree-v2.png',82,-21,.9],['tree','/assets/forest-tree-v2.png',101,-14,1.08],
+  ['tree','/assets/forest-tree-v2.png',2,2,1.10],['tree','/assets/forest-tree-v2.png',17,0,.82],['tree','/assets/forest-tree-v2.png',48,-2,.75],['tree','/assets/forest-tree-v2.png',82,0,.9],['tree','/assets/forest-tree-v2.png',101,3,1.08],
   ['tree','/assets/forest-tree-v2.png',-5,28,.86],['tree','/assets/forest-tree-v2.png',105,26,.88],['tree','/assets/forest-tree-v2.png',-8,77,.9],['tree','/assets/forest-tree-v2.png',105,77,.94],
   ['pine','/assets/decor/forest-1.png',9,47,.88],['pine','/assets/decor/forest-1.png',92,51,.9],['rock','/assets/decor/forest-2.png',18,73,.78],['rock','/assets/decor/forest-2.png',87,29,.65],
   ['bush','/assets/decor/forest-4.png',14,17,.72],['bush','/assets/decor/forest-4.png',85,83,.85],['grass','/assets/decor/forest-3.png',32,82,.7],['grass','/assets/decor/forest-3.png',68,85,.75],['log','/assets/decor/forest-5.png',12,84,.7]
