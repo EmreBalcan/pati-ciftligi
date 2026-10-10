@@ -1,11 +1,11 @@
 /* Landscape playfield and layered forest scenery. */
-.app{width:min(100%,1180px);padding:8px 12px 12px;background:#4d7b2e url('/assets/forest-ground-warm.png') center/cover}
+.app{width:min(100%,1180px);padding:8px 12px 12px;background:#193526}
 .game{width:100%;height:min(69vh,650px);min-height:0;aspect-ratio:auto;background-size:cover;border:0;border-radius:18px;transform:perspective(1400px) rotateX(8deg) scale(1.01);transform-origin:center 52%;box-shadow:0 28px 46px #172a0c7a}
 .game.forest{background-color:#63a13b}
 .game.desert{background-color:#efb76e}
 .game.polar{background-color:#c9dafa}
-.app:has(.game.desert){background:#dc9b53 url('/assets/desert-ground-warm.png') center/cover}
-.app:has(.game.polar){background:#aac9e5 url('/assets/polar-ground-warm.png') center/cover}
+.app:has(.game.desert){background:#6b4227}
+.app:has(.game.polar){background:#344961}
 .game:before{content:"";position:absolute;z-index:2;inset:0;pointer-events:none;background:radial-gradient(ellipse 34% 55% at 75% 0%,#fff6bf75,transparent 78%),linear-gradient(121deg,transparent 37%,#fff5b947 46%,transparent 55%),linear-gradient(116deg,transparent 53%,#fff8c02e 60%,transparent 69%);mix-blend-mode:screen}
 .game:after{z-index:2;background:radial-gradient(ellipse at 75% 9%,#fff1b42b,transparent 48%),radial-gradient(ellipse at center,transparent 55%,#173d1940 100%);pointer-events:none}
 .scenery{position:absolute;z-index:1;pointer-events:none;transform:translate(-50%,-50%);width:clamp(110px,30vh,250px);height:auto;filter:drop-shadow(-15px 19px 8px #1024148c)}
@@ -26,11 +26,11 @@
 .limit{z-index:2;left:29.4%;right:29.4%;top:62%;bottom:auto;border-top:2px dashed #fffdf3ed;filter:drop-shadow(0 0 4px #fff9)}
 .game.desert .limit{border-top-color:#ffe18a;filter:drop-shadow(0 0 5px #e97e28)}
 .game.polar .limit{border-top-color:#d7faff;filter:drop-shadow(0 0 5px #70d6ff)}
-.fence{z-index:4}
+.fence{z-index:6}
 .fence.left,.fence.right{display:none}
 .fence.top{left:24.5%;right:24.5%;top:18%;height:50%;background-image:url('/assets/fence-warm.png');background-size:100% 100%;filter:drop-shadow(-7px 12px 7px #19301391)}
-.game.desert .fence.top{background-image:url('/assets/desert-fence-warm.png');filter:drop-shadow(-7px 12px 7px #75401f99)}
-.game.polar .fence.top{background-image:url('/assets/polar-fence-warm.png');filter:drop-shadow(-7px 12px 7px #466184a8)}
+.game.desert .fence.top{height:55%;background-image:url('/assets/desert-fence-warm.png');filter:drop-shadow(-7px 12px 7px #75401f99)}
+.game.polar .fence.top{height:52%;background-image:url('/assets/polar-fence-warm.png');filter:drop-shadow(-7px 12px 7px #466184a8)}
 .game.desert:before{background:radial-gradient(ellipse 34% 55% at 76% 0%,#fff2ab80,transparent 78%),linear-gradient(120deg,transparent 40%,#ffe08d45 49%,transparent 61%)}
 .game.polar:before{background:radial-gradient(ellipse 40% 65% at 78% 0%,#ffe6bd75,transparent 78%),linear-gradient(117deg,transparent 28%,#b6dbff43 41%,transparent 52%),linear-gradient(114deg,transparent 54%,#f6d5ff46 65%,transparent 73%)}
 .game.polar:after{background:radial-gradient(ellipse at 73% 11%,#ffd8bd3d,transparent 48%),radial-gradient(ellipse at center,transparent 52%,#4d609244 100%)}
@@ -44,23 +44,22 @@ canvas{z-index:5}
 .map.active{background:#eebc77;color:#4f2e12}
 .icon{background:linear-gradient(#e4ac64,#a75c29);border:2px solid #77401f;box-shadow:0 4px 0 #613114,0 9px 12px #1731128a;color:#fff3cd}
 .top{gap:7px}
-.mobile-link{display:inline-flex;align-items:center;min-height:39px;padding:0 14px;border:2px solid #77401f;border-radius:13px;background:linear-gradient(#ffe2a7,#e9af68);box-shadow:0 4px 0 #613114,0 9px 12px #1731128a;color:#4c2b16;text-decoration:none;font-size:14px;font-weight:900;white-space:nowrap}
-.download{width:auto;min-width:72px;padding:0 9px;font-size:13px;font-weight:900;white-space:nowrap}
-.settings-panel{position:fixed;z-index:20;right:12px;top:60px;display:grid;gap:8px;min-width:190px;padding:14px;border:3px solid #71401e;border-radius:15px;background:linear-gradient(#bb7b3f,#80502a);box-shadow:0 14px 30px #17280c9c;color:#fff3d0;text-align:center}
+.settings-panel{position:fixed;z-index:20;right:12px;top:58px;display:grid;gap:8px;width:min(340px,calc(100vw - 24px));max-height:calc(100dvh - 70px);overflow:auto;justify-items:stretch;padding:14px;border:3px solid #71401e;border-radius:15px;background:linear-gradient(#bb7b3f,#80502a);box-shadow:0 14px 30px #17280c9c;color:#fff3d0;text-align:center}
 .settings-panel[hidden]{display:none}
 .settings-panel button{border:1px solid #f1cc8b;border-radius:8px;background:#f8dc9b;color:#53341a;padding:7px;font-weight:800}
-.install-panel{position:fixed;z-index:21;right:12px;top:54px;width:min(300px,calc(100vw - 24px));max-height:calc(100dvh - 62px);overflow:auto;display:grid;gap:5px;justify-items:center;padding:9px;border:3px solid #71401e;border-radius:16px;background:linear-gradient(#b87d43,#714627);box-shadow:0 17px 35px #17280caa;color:#fff4d5;text-align:center;font-size:11px}
-.install-panel[hidden]{display:none}
-.install-panel strong{font-size:18px}
-.install-panel img{width:112px;height:112px;padding:6px;border-radius:8px;background:#fff}
-.install-panel a{color:#fff7c5;font-size:14px;font-weight:900}
-.install-panel p{margin:0;line-height:1.35}
-.install-panel button{border:1px solid #f1cc8b;border-radius:8px;background:#f8dc9b;color:#53341a;padding:5px 12px;font-weight:800}
+.settings-panel strong{font-size:18px}
+.settings-label{font-size:12px;font-weight:900;letter-spacing:.06em;text-transform:uppercase}
+.settings-panel .maps{position:static;display:flex;width:100%;gap:5px;margin:0}
+.settings-panel .map{font-size:12px;padding:8px 3px}
+.settings-divider{height:1px;background:#f6dcab6b}
+.settings-qr{width:118px;height:118px;justify-self:center;padding:6px;border-radius:10px;background:white}
+.settings-link{color:#fff4ba;font-size:15px;font-weight:900}
+.settings-panel small{font-size:11px;line-height:1.35}
 @media (orientation:landscape) and (max-height:650px){
   html,body{height:100%;overflow:hidden}
   .app{width:100vw;height:100dvh;padding:0;position:relative}
   .game{width:100vw;height:100dvh;aspect-ratio:auto;border-radius:0}
-  .top,.maps,.hud{position:absolute;z-index:7}
+  .top,.hud{position:absolute;z-index:7}
   .top{top:8px;left:8px}
   .brand{display:none}
   .maps{top:8px;left:56px;width:min(34vw,260px);margin:0}
@@ -76,8 +75,8 @@ canvas{z-index:5}
   .score{position:absolute;top:8px;left:8px;min-width:96px;padding:6px 10px}
   .next{position:absolute;top:8px;right:145px;min-width:155px;max-width:27vw;padding:3px 7px}
   .top{top:8px;left:auto;right:8px}
-  .mobile-link{display:none}
-  .download{min-width:64px;padding:0 5px;font-size:11px}
+  .settings-panel{top:8px;right:8px;width:min(300px,calc(100vw - 16px));max-height:calc(100dvh - 16px)}
+  .settings-qr{width:90px;height:90px}
   .maps{left:118px;top:8px;width:min(32vw,260px)}
 }
 @media (orientation:portrait) and (max-width:700px){
