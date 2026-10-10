@@ -1,6 +1,6 @@
 /* Landscape playfield and layered forest scenery. */
 .app{width:min(100%,1180px);padding:8px 12px 12px;background:#4d7b2e url('/assets/forest-ground-warm.png') center/cover}
-.game{height:min(69vh,650px);min-height:0;aspect-ratio:16/9;background-size:cover;border:0;border-radius:18px;transform:perspective(1400px) rotateX(8deg) scale(1.01);transform-origin:center 52%;box-shadow:0 28px 46px #172a0c7a}
+.game{width:100%;height:min(69vh,650px);min-height:0;aspect-ratio:auto;background-size:cover;border:0;border-radius:18px;transform:perspective(1400px) rotateX(8deg) scale(1.01);transform-origin:center 52%;box-shadow:0 28px 46px #172a0c7a}
 .game.forest{background-color:#63a13b}
 .game.desert{background-color:#efb76e}
 .game.polar{background-color:#c9dafa}
@@ -44,6 +44,8 @@ canvas{z-index:5}
 .map.active{background:#eebc77;color:#4f2e12}
 .icon{background:linear-gradient(#e4ac64,#a75c29);border:2px solid #77401f;box-shadow:0 4px 0 #613114,0 9px 12px #1731128a;color:#fff3cd}
 .top{gap:7px}
+.mobile-link{display:inline-flex;align-items:center;min-height:39px;padding:0 14px;border:2px solid #77401f;border-radius:13px;background:linear-gradient(#ffe2a7,#e9af68);box-shadow:0 4px 0 #613114,0 9px 12px #1731128a;color:#4c2b16;text-decoration:none;font-size:14px;font-weight:900;white-space:nowrap}
+.download{width:auto;min-width:72px;padding:0 9px;font-size:13px;font-weight:900;white-space:nowrap}
 .settings-panel{position:fixed;z-index:20;right:12px;top:60px;display:grid;gap:8px;min-width:190px;padding:14px;border:3px solid #71401e;border-radius:15px;background:linear-gradient(#bb7b3f,#80502a);box-shadow:0 14px 30px #17280c9c;color:#fff3d0;text-align:center}
 .settings-panel[hidden]{display:none}
 .settings-panel button{border:1px solid #f1cc8b;border-radius:8px;background:#f8dc9b;color:#53341a;padding:7px;font-weight:800}
@@ -74,6 +76,8 @@ canvas{z-index:5}
   .score{position:absolute;top:8px;left:8px;min-width:96px;padding:6px 10px}
   .next{position:absolute;top:8px;right:145px;min-width:155px;max-width:27vw;padding:3px 7px}
   .top{top:8px;left:auto;right:8px}
+  .mobile-link{display:none}
+  .download{min-width:64px;padding:0 5px;font-size:11px}
   .maps{left:118px;top:8px;width:min(32vw,260px)}
 }
 @media (orientation:portrait) and (max-width:700px){
