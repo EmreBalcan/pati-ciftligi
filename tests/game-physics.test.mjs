@@ -42,7 +42,23 @@ const body = (x, y, l, entered = false) => ({ x, y, l, r: 10, vx: 0, vy: 0, age:
 {
   const world = makeWorld([body(50, 107, 0)]);
   world.step(1);
-  assert.equal(world.over, true, '80% outside the line ends the game even without a previous center crossing');
+  assert.equal(world.over, false, 'a freshly launched animal does not end the game before entering the enclosure');
+}
+
+{
+  const world = makeWorld([body(50, 95, 0)]);
+  world.step(1);
+  assert.equal(world.bodies[0].entered, false, 'touching the danger line does not arm a launched animal');
+  assert.equal(world.over, false);
+}
+
+{
+  const world = makeWorld([body(50, 80, 0)]);
+  world.step(1);
+  assert.equal(world.bodies[0].entered, true, 'an animal becomes eligible only after fully entering');
+  world.bodies[0].y = 107;
+  world.step(1);
+  assert.equal(world.over, true, 'a previously entered animal ends the game when 80% is outside');
 }
 
 {
