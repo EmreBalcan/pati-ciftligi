@@ -29,8 +29,8 @@
 .fence{z-index:6}
 .fence.left,.fence.right{display:none}
 .fence.top{left:27.5%;right:27.5%;top:12%;height:56%;background-image:url('/assets/fence-warm.png');background-size:100% 100%;filter:drop-shadow(-7px 12px 7px #19301391)}
-.game.desert .fence.top{height:61%;background-image:url('/assets/desert-fence-warm.png');filter:drop-shadow(-7px 12px 7px #75401f99)}
-.game.polar .fence.top{height:58%;background-image:url('/assets/polar-fence-warm.png');filter:drop-shadow(-7px 12px 7px #466184a8)}
+.game.desert .fence.top{top:7%;height:66%;background-image:url('/assets/desert-fence-warm.png');filter:drop-shadow(-7px 12px 7px #75401f99)}
+.game.polar .fence.top{top:7%;height:63%;background-image:url('/assets/polar-fence-warm.png');filter:drop-shadow(-7px 12px 7px #466184a8)}
 .game.desert:before{background:radial-gradient(ellipse 34% 55% at 76% 0%,#fff2ab80,transparent 78%),linear-gradient(120deg,transparent 40%,#ffe08d45 49%,transparent 61%)}
 .game.polar:before{background:radial-gradient(ellipse 40% 65% at 78% 0%,#ffe6bd75,transparent 78%),linear-gradient(117deg,transparent 28%,#b6dbff43 41%,transparent 52%),linear-gradient(114deg,transparent 54%,#f6d5ff46 65%,transparent 73%)}
 .game.polar:after{background:radial-gradient(ellipse at 73% 11%,#ffd8bd3d,transparent 48%),radial-gradient(ellipse at center,transparent 52%,#4d609244 100%)}

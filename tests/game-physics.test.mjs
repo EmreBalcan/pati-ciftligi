@@ -20,12 +20,13 @@ function makeWorld(bodies, line = 100, map = 'forest') {
     bodies,
     tracks: [], bursts: [], shockwaves: [], queue: [0, 0, 0],
     score: 0, scoreEl: { textContent: '0' }, unlocked: 2, flash: 0,
-    over: false, map, maps: { forest: { names: Array(9).fill('Hayvan') }, desert: { names: Array(9).fill('Hayvan') }, polar: { names: Array(9).fill('Hayvan') } },
+    over: false, map, maps: { forest: { names: Array(9).fill('Hayvan') }, desert: { names: Array(8).fill('Hayvan') }, polar: { names: Array(9).fill('Hayvan') } },
     bounds: () => ({ line }),
     limitsAt: () => ({ L: 0, R: 500, T: 0 }),
     keepInside: () => {},
     recordScore: () => {}, refill: () => {}, pop: () => {},
     endGame: () => { world.over = true; },
+    finalLevel: () => world.maps[world.map].names.length - 1,
     spawn: (x, y, l, vx, vy, entered) => {
       const body = { x, y, l, vx, vy, r: 10, age: 0, dead: false, hit: 0, entered, trailTick: 0, angle: 0, omega: 0 };
       world.bodies.push(body);
@@ -76,6 +77,13 @@ const body = (x, y, l, entered = false) => ({ x, y, l, r: 10, vx: 0, vy: 0, age:
   assert.equal(world.score, 10240);
   assert.equal(world.shockwaves.length, 1);
   assert.ok(world.bodies[0].vx > 0 && world.bodies[0].vx < 1.2, 'the neighboring animal gets a gentle outward nudge');
+}
+
+{
+  const world = makeWorld([body(50, 80, 7, true), body(58, 80, 7, true)], 100, 'desert');
+  world.step(1);
+  assert.equal(world.bodies.length, 0, 'two lions are the desert final-tier explosion');
+  assert.equal(world.score, 10240);
 }
 
 {

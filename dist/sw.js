@@ -1,6 +1,6 @@
-const CACHE='merge-meadow-v22';
+const CACHE='merge-meadow-v23';
 const CORE=['/','/scene.css','/manifest.webmanifest','/icon.svg','/assets/icon-192.png','/assets/icon-512.png','/assets/play-qr.png','/assets/forest-ground-warm.png','/assets/fence-warm.png','/assets/forest-tree-warm.png','/assets/desert-ground-warm.png','/assets/desert-fence-warm.png','/assets/desert-palm-warm.png','/assets/desert-cactus-warm.png','/assets/desert-rock-warm.png','/assets/polar-ground-warm.png','/assets/polar-fence-warm.png','/assets/polar-pine-warm.png','/assets/polar-ice-warm.png','/assets/polar-igloo-warm.png','/assets/animals/desert-camel-warm.png','/assets/animals/desert-goat-warm.png','/assets/animals/polar-owl-warm.png','/assets/animals/polar-bear-warm.png',...Array.from({length:6},(_,i)=>`/assets/decor/forest-${i}.png`),...Array.from({length:7},(_,i)=>`/assets/animals/farm-${i+1}.png`),...['forest','desert','polar'].flatMap(m=>Array.from({length:9},(_,i)=>`/assets/animals/${m}-${i}.png`))];
-CORE.push('/assets/apk-qr-v17.png','/assets/desert-ground-clear.png','/scene.css?v=22');
+CORE.push('/assets/apk-qr-v17.png','/assets/desert-ground-clear.png','/scene.css?v=23');
 self.addEventListener('install',e=>{self.skipWaiting();e.waitUntil(caches.open(CACHE).then(c=>c.addAll(CORE)))});
 self.addEventListener('activate',e=>e.waitUntil(Promise.all([self.clients.claim(),caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==CACHE).map(k=>caches.delete(k))))])));
 self.addEventListener('fetch',e=>{if(e.request.mode==='navigate')return e.respondWith(fetch(e.request).then(r=>{let copy=r.clone();caches.open(CACHE).then(c=>c.put(e.request,copy));return r}).catch(()=>caches.match(e.request)));e.respondWith(caches.match(e.request).then(r=>r||fetch(e.request)))});
