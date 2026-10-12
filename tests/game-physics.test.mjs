@@ -14,13 +14,13 @@ for (let i = html.indexOf('{', start); i < html.length; i++) {
 assert.ok(end > start, 'physics step can be extracted');
 const stepSource = html.slice(start, end);
 
-function makeWorld(bodies, line = 100) {
+function makeWorld(bodies, line = 100, map = 'forest') {
   const world = {
     Math,
     bodies,
     tracks: [], bursts: [], shockwaves: [], queue: [0, 0, 0],
     score: 0, scoreEl: { textContent: '0' }, unlocked: 2, flash: 0,
-    over: false, map: 'forest', maps: { forest: { names: Array(9).fill('Hayvan') } },
+    over: false, map, maps: { forest: { names: Array(9).fill('Hayvan') }, desert: { names: Array(9).fill('Hayvan') }, polar: { names: Array(9).fill('Hayvan') } },
     bounds: () => ({ line }),
     limitsAt: () => ({ L: 0, R: 500, T: 0 }),
     keepInside: () => {},
@@ -76,6 +76,35 @@ const body = (x, y, l, entered = false) => ({ x, y, l, r: 10, vx: 0, vy: 0, age:
   assert.equal(world.score, 10240);
   assert.equal(world.shockwaves.length, 1);
   assert.ok(world.bodies[0].vx > 0 && world.bodies[0].vx < 1.2, 'the neighboring animal gets a gentle outward nudge');
+}
+
+{
+  const forest = makeWorld([body(50, 80, 0)], 100, 'forest');
+  const desert = makeWorld([body(50, 80, 0)], 100, 'desert');
+  const polar = makeWorld([body(50, 80, 0)], 100, 'polar');
+  for (const world of [forest, desert, polar]) { world.bodies[0].vx = 5; world.step(1); }
+  assert.ok(desert.bodies[0].vx < forest.bodies[0].vx, 'sand slows animals more than forest ground');
+  assert.equal(polar.bodies[0].vx, forest.bodies[0].vx, 'polar sliding remains unchanged');
+}
+
+{
+  const radiusSource = html.match(/function radius\(l\)\{[^}]+\}/)?.[0];
+  assert.ok(radiusSource);
+  const forest = vm.runInNewContext(`${radiusSource};radius(2)`, { Math, H: 500, map: 'forest' });
+  const desert = vm.runInNewContext(`${radiusSource};radius(2)`, { Math, H: 500, map: 'desert' });
+  assert.ok(desert > forest, 'desert animals have larger gameplay bodies');
+}
+
+{
+  const source = html.match(/^function limitsAt\([^\n]+/m)?.[0];
+  assert.ok(source);
+  const rows = Array(51).fill(10), right = Array(51).fill(90);
+  const box = { t: 20, fence: { offsetLeft: 100, offsetTop: 0, offsetWidth: 200, offsetHeight: 100 }, g: { top: 0, h: 100, w: 100, left: rows, right } };
+  const at = map => vm.runInNewContext(`${source};limitsAt(50,box,10)`, { Math, map, box });
+  const forest = at('forest'), desert = at('desert'), polar = at('polar');
+  assert.ok(desert.L < forest.L && desert.R > forest.R, 'desert animals reach closer to side fences');
+  assert.equal(polar.L, desert.L, 'polar animals use the closer side-fence contact');
+  assert.ok(forest.T < box.t + 10 * 1.58 + 3, 'forest animals reach closer to the top fence');
 }
 
 console.log('Physics regression checks passed.');
