@@ -20,7 +20,7 @@ function makeWorld(bodies, line = 100, map = 'forest') {
     bodies,
     tracks: [], bursts: [], shockwaves: [], queue: [0, 0, 0],
     score: 0, scoreEl: { textContent: '0' }, unlocked: 2, flash: 0,
-    over: false, map, maps: { forest: { names: Array(9).fill('Hayvan') }, desert: { names: Array(8).fill('Hayvan') }, polar: { names: Array(9).fill('Hayvan') } },
+    over: false, map, maps: { forest: { names: Array(8).fill('Hayvan') }, desert: { names: Array(7).fill('Hayvan') }, polar: { names: Array(8).fill('Hayvan') } },
     bounds: () => ({ line }),
     limitsAt: () => ({ L: 0, R: 500, T: 0 }),
     keepInside: () => {},
@@ -59,7 +59,10 @@ const body = (x, y, l, entered = false) => ({ x, y, l, r: 10, vx: 0, vy: 0, age:
   assert.equal(world.bodies[0].entered, true, 'an animal becomes eligible only after fully entering');
   world.bodies[0].y = 107;
   world.step(1);
-  assert.equal(world.over, true, 'a previously entered animal ends the game when 80% is outside');
+  assert.equal(world.over, false, 'a partly crossed animal does not end the game');
+  world.bodies[0].y = 110;
+  world.step(1);
+  assert.equal(world.over, true, 'a previously entered animal ends the game only when fully outside');
 }
 
 {
@@ -71,7 +74,7 @@ const body = (x, y, l, entered = false) => ({ x, y, l, r: 10, vx: 0, vy: 0, age:
 }
 
 {
-  const world = makeWorld([body(50, 80, 8, true), body(58, 80, 8, true), body(90, 80, 3, true)]);
+  const world = makeWorld([body(50, 80, 7, true), body(58, 80, 7, true), body(90, 80, 3, true)]);
   world.step(1);
   assert.equal(world.bodies.length, 1, 'highest-tier animals explode on first contact');
   assert.equal(world.score, 10240);
@@ -80,9 +83,9 @@ const body = (x, y, l, entered = false) => ({ x, y, l, r: 10, vx: 0, vy: 0, age:
 }
 
 {
-  const world = makeWorld([body(50, 80, 7, true), body(58, 80, 7, true)], 100, 'desert');
+  const world = makeWorld([body(50, 80, 6, true), body(58, 80, 6, true)], 100, 'desert');
   world.step(1);
-  assert.equal(world.bodies.length, 0, 'two lions are the desert final-tier explosion');
+  assert.equal(world.bodies.length, 0, 'two antelopes are the desert final-tier explosion');
   assert.equal(world.score, 10240);
 }
 
@@ -91,16 +94,17 @@ const body = (x, y, l, entered = false) => ({ x, y, l, r: 10, vx: 0, vy: 0, age:
   const desert = makeWorld([body(50, 80, 0)], 100, 'desert');
   const polar = makeWorld([body(50, 80, 0)], 100, 'polar');
   for (const world of [forest, desert, polar]) { world.bodies[0].vx = 5; world.step(1); }
-  assert.ok(desert.bodies[0].vx < forest.bodies[0].vx, 'sand slows animals more than forest ground');
+  assert.equal(desert.bodies[0].vx, forest.bodies[0].vx, 'desert and forest use equal friction');
   assert.equal(polar.bodies[0].vx, forest.bodies[0].vx, 'polar sliding remains unchanged');
 }
 
 {
   const radiusSource = html.match(/function radius\(l\)\{[^}]+\}/)?.[0];
   assert.ok(radiusSource);
-  const forest = vm.runInNewContext(`${radiusSource};radius(2)`, { Math, H: 500, map: 'forest' });
-  const desert = vm.runInNewContext(`${radiusSource};radius(2)`, { Math, H: 500, map: 'desert' });
-  assert.ok(desert > forest, 'desert animals have larger gameplay bodies');
+  const sizes = { forest: { sizes: [17,20,23,26,30,33,38,42] }, desert: { sizes: [18,20,24,29,32,39,42] } };
+  const forest = vm.runInNewContext(`${radiusSource};radius(2)`, { Math, H: 500, map: 'forest', maps: sizes });
+  const desert = vm.runInNewContext(`${radiusSource};radius(2)`, { Math, H: 500, map: 'desert', maps: sizes });
+  assert.ok(desert > forest, 'biome-specific animal scales are applied');
 }
 
 {
