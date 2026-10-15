@@ -121,15 +121,17 @@ const body = (x, y, l, entered = false) => ({ x, y, l, r: 10, vx: 0, vy: 0, age:
 
 {
   const zoneSource = html.match(/^function iceZoneFor\([^\n]+/m)?.[0];
+  const centerSource = html.match(/^function iceZoneCenter\([^\n]+/m)?.[0];
   const loadSource = html.match(/^function updateIceLoads\([^\n]+/m)?.[0];
-  assert.ok(zoneSource && loadSource, 'polar ice-zone logic is present');
+  assert.ok(zoneSource && centerSource && loadSource, 'polar ice-zone logic is present');
   const context = {
     Math, map: 'polar', maps: { polar: { weights: [8,10,13,16,20,25,32,40] } },
     bodies: [body(45, 45, 6), body(55, 55, 6)], iceLoads: Array(8).fill(0), iceCracks: Array(8).fill(0),
-    iceFailure: null, drag: null, flash: 0, bursts: [], endGame: () => {}
+    iceFailure: null, drag: null, flash: 0, bursts: [], endGame: () => {},
+    limitsAt: (_y, box) => ({ L: box.l, R: box.r, T: box.t })
   };
   vm.createContext(context);
-  vm.runInContext(`${zoneSource}\n${loadSource}`, context);
+  vm.runInContext(`${zoneSource}\n${centerSource}\n${loadSource}`, context);
   const box = { l: 0, r: 400, t: 0, line: 200 };
   assert.equal(context.iceZoneFor(context.bodies[0], box), 0, 'animal is assigned to the zone containing most of its body');
   context.updateIceLoads(box, 1);
