@@ -20,10 +20,10 @@ function makeWorld(bodies, line = 100, map = 'forest') {
     bodies,
     tracks: [], bursts: [], shockwaves: [], queue: [0, 0, 0],
     score: 0, scoreEl: { textContent: '0' }, unlocked: 2, flash: 0,
-    over: false, map, maps: { forest: { names: Array(8).fill('Hayvan') }, desert: { names: Array(7).fill('Hayvan') }, polar: { names: Array(8).fill('Hayvan') } },
+    over: false, iceFailure: null, map, maps: { forest: { names: Array(8).fill('Hayvan') }, desert: { names: Array(7).fill('Hayvan') }, polar: { names: Array(8).fill('Hayvan') } },
     bounds: () => ({ line }),
     limitsAt: () => ({ L: 0, R: 500, T: 0 }),
-    keepInside: () => {},
+    keepInside: () => {}, updateIceLoads: () => {},
     recordScore: () => {}, refill: () => {}, pop: () => {},
     endGame: () => { world.over = true; },
     finalLevel: () => world.maps[world.map].names.length - 1,
@@ -117,6 +117,27 @@ const body = (x, y, l, entered = false) => ({ x, y, l, r: 10, vx: 0, vy: 0, age:
   assert.ok(desert.L < forest.L && desert.R > forest.R, 'desert animals reach closer to side fences');
   assert.equal(polar.L, desert.L, 'polar animals use the closer side-fence contact');
   assert.ok(forest.T < box.t + 10 * 1.58 + 3, 'forest animals reach closer to the top fence');
+}
+
+{
+  const zoneSource = html.match(/^function iceZoneFor\([^\n]+/m)?.[0];
+  const loadSource = html.match(/^function updateIceLoads\([^\n]+/m)?.[0];
+  assert.ok(zoneSource && loadSource, 'polar ice-zone logic is present');
+  const context = {
+    Math, map: 'polar', maps: { polar: { weights: [8,10,13,16,20,25,32,40] } },
+    bodies: [body(45, 45, 6), body(55, 55, 6)], iceLoads: Array(8).fill(0), iceCracks: Array(8).fill(0),
+    iceFailure: null, drag: null, flash: 0, bursts: [], endGame: () => {}
+  };
+  vm.createContext(context);
+  vm.runInContext(`${zoneSource}\n${loadSource}`, context);
+  const box = { l: 0, r: 400, t: 0, line: 200 };
+  assert.equal(context.iceZoneFor(context.bodies[0], box), 0, 'animal is assigned to the zone containing most of its body');
+  context.updateIceLoads(box, 1);
+  assert.equal(context.iceLoads[0], 64, 'weights are summed in the dominant zone');
+  assert.ok(context.iceCracks[0] > 0, 'ice starts cracking above 50');
+  context.bodies.push(body(60, 60, 6));
+  context.updateIceLoads(box, 1);
+  assert.equal(context.iceFailure.zone, 0, 'ice breaks above 75');
 }
 
 console.log('Physics regression checks passed.');
