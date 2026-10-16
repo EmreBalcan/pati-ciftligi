@@ -25,12 +25,12 @@
 .game .decor{display:none}
 .limit{z-index:2;left:32.4%;right:32.4%;top:62%;bottom:auto;border-top:2px dashed #fffdf3ed;filter:drop-shadow(0 0 4px #fff9)}
 .game.desert .limit{border-top-color:#ffe18a;filter:drop-shadow(0 0 5px #e97e28)}
-.game.polar .limit{left:24%;right:24%;top:78%;border-top-color:#d7faff;filter:drop-shadow(0 0 5px #70d6ff)}
+.game.polar .limit{left:25%;right:25%;top:69%;border-top-color:#d7faff;filter:drop-shadow(0 0 5px #70d6ff)}
 .fence{z-index:6}
 .fence.left,.fence.right{display:none}
 .fence.top{left:27.5%;right:27.5%;top:12%;height:56%;background-image:url('/assets/fence-warm.png');background-size:100% 100%;filter:drop-shadow(-7px 12px 7px #19301391)}
 .game.desert .fence.top{top:7%;height:66%;background-image:url('/assets/desert-fence-warm.png');filter:drop-shadow(-7px 12px 7px #75401f99)}
-.game.polar .fence.top{left:18.1%;right:18.1%;top:2%;height:84%;background-image:url('/assets/polar-fence-warm.png');filter:drop-shadow(-7px 12px 7px #466184a8)}
+.game.polar .fence.top{left:19.5%;right:19.5%;top:-8%;height:94%;background-image:url('/assets/polar-fence-warm.png');filter:drop-shadow(-6px 10px 6px #466184a8)}
 .game.desert:before{background:radial-gradient(ellipse 34% 55% at 76% 0%,#fff2ab80,transparent 78%),linear-gradient(120deg,transparent 40%,#ffe08d45 49%,transparent 61%)}
 .game.polar:before{background:radial-gradient(ellipse 40% 65% at 78% 0%,#ffe6bd75,transparent 78%),linear-gradient(117deg,transparent 28%,#b6dbff43 41%,transparent 52%),linear-gradient(114deg,transparent 54%,#f6d5ff46 65%,transparent 73%)}
 .game.polar:after{background:radial-gradient(ellipse at 73% 11%,#ffd8bd3d,transparent 48%),radial-gradient(ellipse at center,transparent 52%,#4d609244 100%)}
