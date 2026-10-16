@@ -128,7 +128,7 @@ const body = (x, y, l, entered = false) => ({ x, y, l, r: 10, vx: 0, vy: 0, age:
     Math, map: 'polar', maps: { polar: { weights: [8,10,13,16,20,25,32,40] } },
     ICE_COLS: 3, ICE_ROWS: 2, ICE_ZONES: 6, ICE_CRACK: 35, ICE_BREAK: 50,
     bodies: [body(45, 45, 4), body(55, 55, 4)], iceLoads: Array(6).fill(0), iceCracks: Array(6).fill(0),
-    iceFailure: null, drag: null, flash: 0, bursts: [], endGame: () => {},
+    iceFailure: null, drag: null, flash: 0, bursts: [], ended: false, endGame: () => { context.ended = true },
     imgs: { polar: Array(8).fill({ complete: true, naturalWidth: 100, naturalHeight: 100 }) },
     visibleAnimalPoints: () => Array.from({ length: 121 }, (_, i) => ({ x: i % 11 / 10 - .5, y: Math.floor(i / 11) / 10 - .5 })),
     limitsAt: (_y, box) => ({ L: box.l, R: box.r, T: box.t })
@@ -143,6 +143,10 @@ const body = (x, y, l, entered = false) => ({ x, y, l, r: 10, vx: 0, vy: 0, age:
   context.bodies.push(body(60, 60, 4));
   context.updateIceLoads(box, 1);
   assert.equal(context.iceFailure.zone, 0, 'ice breaks above 50');
+  context.updateIceLoads(box, 178);
+  assert.equal(context.ended, false, 'break animation remains visible for about three seconds');
+  context.updateIceLoads(box, 2);
+  assert.equal(context.ended, true, 'game ends after the three-second break animation');
 
   const longSeal = body(132, 48, 1);longSeal.r=25;
   context.visibleAnimalPoints = () => Array.from({ length: 100 }, (_, i) => ({ x: i / 99 - .5, y: 0 }));
