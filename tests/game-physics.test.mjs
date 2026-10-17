@@ -137,6 +137,16 @@ const body = (x, y, l, entered = false) => ({ x, y, l, r: 10, vx: 0, vy: 0, age:
   vm.runInContext(`${zoneSource}\n${centerSource}\n${loadSource}`, context);
   const box = { l: 0, r: 400, t: 0, line: 200 };
   assert.equal(context.iceZoneFor(context.bodies[0], box), 0, 'animal is assigned to the zone containing most of its body');
+  const incoming = body(60, 60, 7);incoming.vx = 4;
+  context.bodies.push(incoming);
+  context.updateIceLoads(box, 1);
+  assert.equal(context.iceLoads[0], 40, 'moving launch weight is ignored until merging and settling finish');
+  context.bodies.pop();
+  const freshMerge = body(60, 60, 7);freshMerge.mergeGrace = 8;
+  context.bodies.push(freshMerge);
+  context.updateIceLoads(box, 1);
+  assert.equal(context.iceLoads[0], 40, 'new merge result is ignored during its merge-resolution grace');
+  context.bodies.pop();
   context.updateIceLoads(box, 1);
   assert.equal(context.iceLoads[0], 40, 'weights are summed in the dominant zone');
   assert.ok(context.iceCracks[0] > 0, 'ice starts cracking above 35');
