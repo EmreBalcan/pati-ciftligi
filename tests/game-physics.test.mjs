@@ -20,7 +20,7 @@ function makeWorld(bodies, line = 100, map = 'forest') {
     bodies,
     tracks: [], bursts: [], shockwaves: [], queue: [0, 0, 0],
     score: 0, scoreEl: { textContent: '0' }, unlocked: 2, flash: 0,
-    over: false, iceFailure: null, map, maps: { forest: { names: Array(8).fill('Hayvan') }, desert: { names: Array(7).fill('Hayvan') }, polar: { names: Array(8).fill('Hayvan') } },
+    over: false, iceFailure: null, map, maps: { forest: { names: Array(8).fill('Hayvan') }, desert: { names: Array(7).fill('Hayvan') }, polar: { names: Array(7).fill('Hayvan') } },
     bounds: () => ({ line }),
     limitsAt: () => ({ L: 0, R: 500, T: 0 }),
     keepInside: () => {}, updateIceLoads: () => {},
@@ -125,11 +125,11 @@ const body = (x, y, l, entered = false) => ({ x, y, l, r: 10, vx: 0, vy: 0, age:
   const loadSource = html.match(/^function updateIceLoads\([^\n]+/m)?.[0];
   assert.ok(zoneSource && centerSource && loadSource, 'polar ice-zone logic is present');
   const context = {
-    Math, map: 'polar', maps: { polar: { weights: [8,10,13,16,20,25,32,40] } },
-    ICE_COLS: 3, ICE_ROWS: 2, ICE_ZONES: 6, ICE_CRACK: 35, ICE_BREAK: 50,
+    Math, map: 'polar', maps: { polar: { weights: [8,13,16,20,25,32,40] } },
+    ICE_COLS: 3, ICE_ROWS: 2, ICE_ZONES: 6, ICE_CRACK: 45, ICE_BREAK: 60,
     bodies: [body(45, 45, 4), body(55, 55, 4)], iceLoads: Array(6).fill(0), iceCracks: Array(6).fill(0),
     iceFailure: null, drag: null, flash: 0, bursts: [], ended: false, endGame: () => { context.ended = true },
-    imgs: { polar: Array(8).fill({ complete: true, naturalWidth: 100, naturalHeight: 100 }) },
+    imgs: { polar: Array(7).fill({ complete: true, naturalWidth: 100, naturalHeight: 100 }) },
     visibleAnimalPoints: () => Array.from({ length: 121 }, (_, i) => ({ x: i % 11 / 10 - .5, y: Math.floor(i / 11) / 10 - .5 })),
     limitsAt: (_y, box) => ({ L: box.l, R: box.r, T: box.t })
   };
@@ -137,22 +137,22 @@ const body = (x, y, l, entered = false) => ({ x, y, l, r: 10, vx: 0, vy: 0, age:
   vm.runInContext(`${zoneSource}\n${centerSource}\n${loadSource}`, context);
   const box = { l: 0, r: 400, t: 0, line: 200 };
   assert.equal(context.iceZoneFor(context.bodies[0], box), 0, 'animal is assigned to the zone containing most of its body');
-  const incoming = body(60, 60, 7);incoming.vx = 4;
+  const incoming = body(60, 60, 6);incoming.vx = 4;
   context.bodies.push(incoming);
   context.updateIceLoads(box, 1);
-  assert.equal(context.iceLoads[0], 40, 'moving launch weight is ignored until merging and settling finish');
+  assert.equal(context.iceLoads[0], 50, 'moving launch weight is ignored until merging and settling finish');
   context.bodies.pop();
-  const freshMerge = body(60, 60, 7);freshMerge.mergeGrace = 8;
+  const freshMerge = body(60, 60, 6);freshMerge.mergeGrace = 8;
   context.bodies.push(freshMerge);
   context.updateIceLoads(box, 1);
-  assert.equal(context.iceLoads[0], 40, 'new merge result is ignored during its merge-resolution grace');
+  assert.equal(context.iceLoads[0], 50, 'new merge result is ignored during its merge-resolution grace');
   context.bodies.pop();
   context.updateIceLoads(box, 1);
-  assert.equal(context.iceLoads[0], 40, 'weights are summed in the dominant zone');
-  assert.ok(context.iceCracks[0] > 0, 'ice starts cracking above 35');
-  context.bodies.push(body(60, 60, 4));
+  assert.equal(context.iceLoads[0], 50, 'weights are summed in the dominant zone');
+  assert.ok(context.iceCracks[0] > 0, 'ice starts cracking above 45');
+  context.bodies.push(body(60, 60, 2));
   context.updateIceLoads(box, 1);
-  assert.equal(context.iceFailure.zone, 0, 'ice breaks above 50');
+  assert.equal(context.iceFailure.zone, 0, 'ice breaks above 60');
   context.updateIceLoads(box, 178);
   assert.equal(context.ended, false, 'break animation remains visible for about three seconds');
   context.updateIceLoads(box, 2);
