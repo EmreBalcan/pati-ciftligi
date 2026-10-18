@@ -115,7 +115,7 @@ const body = (x, y, l, entered = false) => ({ x, y, l, r: 10, vx: 0, vy: 0, age:
   const at = map => vm.runInNewContext(`${source};limitsAt(50,box,10)`, { Math, map, box });
   const forest = at('forest'), desert = at('desert'), polar = at('polar');
   assert.ok(desert.L < forest.L && desert.R > forest.R, 'desert animals reach closer to side fences');
-  assert.ok(desert.L < polar.L && desert.R > polar.R, 'desert animals now reach slightly closer than polar animals');
+  assert.equal(polar.L, desert.L, 'polar animals use the closer side-fence contact');
   assert.ok(forest.T < box.t + 10 * 1.58 + 3, 'forest animals reach closer to the top fence');
 }
 
@@ -126,8 +126,8 @@ const body = (x, y, l, entered = false) => ({ x, y, l, r: 10, vx: 0, vy: 0, age:
   assert.ok(zoneSource && centerSource && loadSource, 'polar ice-zone logic is present');
   const context = {
     Math, map: 'polar', maps: { polar: { weights: [8,13,16,20,25,32,40] } },
-    ICE_COLS: 3, ICE_ROWS: 2, ICE_ZONES: 6, ICE_CRACK: 50, ICE_BREAK: 70,
-    bodies: [body(45, 45, 5), body(55, 55, 5)], iceLoads: Array(6).fill(0), iceCracks: Array(6).fill(0),
+    ICE_COLS: 3, ICE_ROWS: 2, ICE_ZONES: 6, ICE_CRACK: 45, ICE_BREAK: 60,
+    bodies: [body(45, 45, 4), body(55, 55, 4)], iceLoads: Array(6).fill(0), iceCracks: Array(6).fill(0),
     iceFailure: null, drag: null, flash: 0, bursts: [], ended: false, endGame: () => { context.ended = true },
     imgs: { polar: Array(7).fill({ complete: true, naturalWidth: 100, naturalHeight: 100 }) },
     visibleAnimalPoints: () => Array.from({ length: 121 }, (_, i) => ({ x: i % 11 / 10 - .5, y: Math.floor(i / 11) / 10 - .5 })),
@@ -140,19 +140,19 @@ const body = (x, y, l, entered = false) => ({ x, y, l, r: 10, vx: 0, vy: 0, age:
   const incoming = body(60, 60, 6);incoming.vx = 4;
   context.bodies.push(incoming);
   context.updateIceLoads(box, 1);
-  assert.equal(context.iceLoads[0], 64, 'moving launch weight is ignored until merging and settling finish');
+  assert.equal(context.iceLoads[0], 50, 'moving launch weight is ignored until merging and settling finish');
   context.bodies.pop();
   const freshMerge = body(60, 60, 6);freshMerge.mergeGrace = 8;
   context.bodies.push(freshMerge);
   context.updateIceLoads(box, 1);
-  assert.equal(context.iceLoads[0], 64, 'new merge result is ignored during its merge-resolution grace');
+  assert.equal(context.iceLoads[0], 50, 'new merge result is ignored during its merge-resolution grace');
   context.bodies.pop();
   context.updateIceLoads(box, 1);
-  assert.equal(context.iceLoads[0], 64, 'weights are summed in the dominant zone');
-  assert.ok(context.iceCracks[0] > 0, 'ice starts cracking above 50');
-  context.bodies.push(body(60, 60, 0));
+  assert.equal(context.iceLoads[0], 50, 'weights are summed in the dominant zone');
+  assert.ok(context.iceCracks[0] > 0, 'ice starts cracking above 45');
+  context.bodies.push(body(60, 60, 2));
   context.updateIceLoads(box, 1);
-  assert.equal(context.iceFailure.zone, 0, 'ice breaks above 70');
+  assert.equal(context.iceFailure.zone, 0, 'ice breaks above 60');
   context.updateIceLoads(box, 178);
   assert.equal(context.ended, false, 'break animation remains visible for about three seconds');
   context.updateIceLoads(box, 2);
