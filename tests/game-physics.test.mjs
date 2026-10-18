@@ -19,7 +19,7 @@ function makeWorld(bodies, line = 100, map = 'forest') {
     Math,
     bodies,
     tracks: [], bursts: [], shockwaves: [], queue: [0, 0, 0],
-    score: 0, scoreEl: { textContent: '0' }, unlocked: 2, flash: 0,
+    score: 0, scoreEl: { textContent: '0' }, unlocked: 2, flash: 0, mobileMode: false, MAX_TRACKS: 80,
     over: false, iceFailure: null, map, maps: { forest: { names: Array(8).fill('Hayvan') }, desert: { names: Array(7).fill('Hayvan') }, polar: { names: Array(7).fill('Hayvan') } },
     bounds: () => ({ line }),
     limitsAt: () => ({ L: 0, R: 500, T: 0 }),
