@@ -15,8 +15,8 @@ Pati Çiftliği, hayvanları sapanla oyun alanına fırlatıp aynı türleri bir
 
 ## Oyna ve indir
 
-- [Tarayıcıda oyna](https://merge-meadow-mobile.emrebalcan494.chatgpt.site/?v=39)
-- [Android APK'yı indir](https://merge-meadow-mobile.emrebalcan494.chatgpt.site/downloads/pati-ciftligi-v20.apk)
+- [Tarayıcıda oyna](https://pati-ciftligi.emrebalcan494.chatgpt.site/?v=40)
+- [Android APK'yı indir](https://pati-ciftligi.emrebalcan494.chatgpt.site/downloads/pati-ciftligi-v21.apk)
 
 ## Çalıştırma
 

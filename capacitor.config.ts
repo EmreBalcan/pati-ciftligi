@@ -5,7 +5,7 @@ const config: CapacitorConfig = {
   appName: 'Pati Çiftliği',
   webDir: 'mobile-shell',
   server: {
-    url: 'https://merge-meadow-mobile.emrebalcan494.chatgpt.site/?v=39',
+    url: 'https://pati-ciftligi.emrebalcan494.chatgpt.site/?v=40',
     cleartext: false,
     androidScheme: 'https'
   },
