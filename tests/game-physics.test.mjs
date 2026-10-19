@@ -126,7 +126,7 @@ const body = (x, y, l, entered = false) => ({ x, y, l, r: 10, vx: 0, vy: 0, age:
   assert.ok(zoneSource && centerSource && loadSource, 'polar ice-zone logic is present');
   const context = {
     Math, map: 'polar', maps: { polar: { weights: [8,13,16,20,25,32,40] } },
-    ICE_COLS: 3, ICE_ROWS: 2, ICE_ZONES: 6, ICE_CRACK: 50, ICE_BREAK: 70, ICE_SETTLE_TIME: 24,
+    ICE_COLS: 3, ICE_ROWS: 2, ICE_ZONES: 6, ICE_CRACK: 50, ICE_BREAK: 75, ICE_SETTLE_TIME: 24,
     bodies: [body(45, 45, 5), body(55, 55, 5)], iceLoads: [64,0,0,0,0,0], iceCracks: Array(6).fill(0),
     iceFailure: null, iceSettleTime: 0, drag: null, flash: 0, bursts: [], ended: false, endGame: () => { context.ended = true },
     imgs: { polar: Array(7).fill({ complete: true, naturalWidth: 100, naturalHeight: 100 }) },
@@ -150,7 +150,7 @@ const body = (x, y, l, entered = false) => ({ x, y, l, r: 10, vx: 0, vy: 0, age:
   for(let i=0;i<24;i++)context.updateIceLoads(box, 1);
   assert.equal(context.iceLoads[0], 64, 'weights are summed in the dominant zone');
   assert.ok(context.iceCracks[0] > 0, 'ice starts cracking above 50');
-  const slidingOverload=body(60,60,0);slidingOverload.vx=2;context.bodies.push(slidingOverload);
+  const slidingOverload=body(60,60,1);slidingOverload.vx=2;context.bodies.push(slidingOverload);
   context.updateIceLoads(box, 1);
   assert.equal(context.iceFailure, null, 'temporary overload cannot break ice while any animal is sliding');
   slidingOverload.x=250;slidingOverload.vx=0;
@@ -158,7 +158,7 @@ const body = (x, y, l, entered = false) => ({ x, y, l, r: 10, vx: 0, vy: 0, age:
   assert.equal(context.iceFailure, null, 'load is recalculated in the animal final zone after settling');
   slidingOverload.x=60;context.iceSettleTime=0;
   for(let i=0;i<24;i++)context.updateIceLoads(box, 1);
-  assert.equal(context.iceFailure.zone, 0, 'ice breaks above 70');
+  assert.equal(context.iceFailure.zone, 0, 'ice breaks above 75');
   context.updateIceLoads(box, 179);
   assert.equal(context.ended, false, 'break animation remains visible for about three seconds');
   context.updateIceLoads(box, 2);
