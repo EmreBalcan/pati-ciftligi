@@ -1,6 +1,4 @@
-# Pati Çiftliği 🐾
-
-![Pati Çiftliği](dist/assets/icon-512.png)
+<h1>Pati Çiftliği 🐾 <img src="dist/assets/icon-192.png" width="52" alt="Pati Çiftliği simgesi"></h1>
 
 Pati Çiftliği, hayvanları sapanla oyun alanına fırlatıp aynı türleri birleştirerek geliştirdiğiniz yatay ekranlı, rahatlatıcı bir mobil birleştirme oyunudur.
 
@@ -8,7 +6,7 @@ Pati Çiftliği, hayvanları sapanla oyun alanına fırlatıp aynı türleri bir
 
 | Orman | Çöl | Kutup |
 |---|---|---|
-| ![Orman haritası](dist/assets/forest-ground-warm.png) | ![Çöl haritası](dist/assets/desert-ground-clear.png) | ![Kutup haritası](dist/assets/polar-ground-warm.png) |
+| ![Orman haritasında ilerlenmiş oyun](docs/screenshots/orman.png) | ![Çöl haritasında ilerlenmiş oyun](docs/screenshots/col.png) | ![Kutup haritasında ilerlenmiş oyun](docs/screenshots/kutup.png) |
 
 - 🌲 **Orman:** Klasik birleştirme deneyimi.
 - 🌵 **Çöl:** Kum üzerinde farklı hareket hissi.
